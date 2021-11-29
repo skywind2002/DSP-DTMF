@@ -37,7 +37,7 @@ end
 %  最后综合产生DTMF信号,设置每个信号的幅度都为1
 %  我们这里采用sin信号的相加
 
-OutputSeq=SinSeq1(2:end)+SinSeq2(2:end);  %去掉初始化的第一个单元
+OutputSeq=(SinSeq1(2:end)+SinSeq2(2:end))/2;  %去掉初始化的第一个单元,峰值归一化
 t=0:1/fs:1-1/fs;
 
 stem((abs(fft(OutputSeq,200))));  %画FFT看到确实是两个频率峰,验证了我们程序的正确

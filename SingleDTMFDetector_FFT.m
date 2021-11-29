@@ -1,7 +1,7 @@
 clear all;
 clc;
 
-% 基于FFT的担负好DTMF信号识别
+% 基于FFT的单符号DTMF信号识别
 
 FilenameList = ["./附件1/data1081.wav", "./附件1/data1107.wav", "./附件1/data1140.wav", "./附件1/data1219.wav", "./附件1/data1234.wav", "./附件1/data1489.wav", "./附件1/data1507.wav", "./附件1/data1611.wav", "./附件1/data1942.wav", "./附件1/data1944.wav"];
 len = length(FilenameList); %文件个数
@@ -10,7 +10,7 @@ fs = 8000;
 freq = [697, 770, 852, 941, 1209, 1336, 1477, 1633]; %可能出现8个频率
 index = floor(freq * N / fs); % 8个频率对应在FFT中的序号
 KeyMap = ['1', '2', '3', 'A'; '4', '5', '6', 'B'; '7', '8', '9', 'C'; '*', '0', '#', 'D']; %键盘
-ans = zeros(1, len);
+output = []
 
 for i = 1:len
     [y, Fs] = audioread(FilenameList(i));
@@ -22,5 +22,7 @@ for i = 1:len
     SampleAmp = (yFFT(index) + yFFT(index - 1) + yFFT(index) + 1) / 3; %做个滑动平均防止有点偏差
     [rowmax, row] = max(SampleAmp(1:4)); %前四个判断行号
     [colmax, col] = max(SampleAmp(5:8)); %后四个判断列号
-    output(i) = (KeyMap(row, col));
+    output = [output, KeyMap(row, col)];
 end
+
+disp(output);

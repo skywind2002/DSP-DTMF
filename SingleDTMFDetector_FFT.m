@@ -10,7 +10,7 @@ fs = 8000;
 freq = [697, 770, 852, 941, 1209, 1336, 1477, 1633]; %可能出现8个频率
 index = floor(freq * N / fs); % 8个频率对应在FFT中的序号
 KeyMap = ['1', '2', '3', 'A'; '4', '5', '6', 'B'; '7', '8', '9', 'C'; '*', '0', '#', 'D']; %键盘
-output = []
+output = [];
 
 for i = 1:len
     [y, Fs] = audioread(FilenameList(i));

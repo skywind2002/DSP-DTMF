@@ -1,13 +1,20 @@
 [data, fs] = audioread('./附件2/data.wav');
 plot(data); %y的图像表明这个音频信号一共有15段
+hold on;
+data_head=zeros(1,length(data));
+data_tail=zeros(1,length(tail));
 [head, tail] = AudioSeperate(data); %进行数据分割
+data_head(head)=2;
+data_tail(tail)=2;
+plot(data_head,'r');
+plot(data_tail,'g');
 num = length(head); %分割段数
 N = 2000; %选择FFT变换点数为2000(因为可以直接用MATLAB现成的FFT变换,所以点数可以随便选)
 fs = 8000;
 freq = [697, 770, 852, 941, 1209, 1336, 1477, 1633]; %可能出现8个频率
 index = floor(freq * N / fs); % 8个频率对应在FFT中的序号
 KeyMap = ['1', '2', '3', 'A'; '4', '5', '6', 'B'; '7', '8', '9', 'C'; '*', '0', '#', 'D']; %键盘
-output_FFT = []
+output_FFT = [];
 
 for i = 1:num %对每一段进行单DTMF_FFT解码
     input = data(head(i):tail(i)); %input为进行分析的段数据
